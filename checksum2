@@ -1,0 +1,27 @@
+def binarysearch(array, search_term, low, high, searches=0):
+    mid = (low + high) // 2
+    searches += 1
+    if mid == low:
+        return False, searches
+    elif array[mid] == search_term:
+        return True, searches
+    elif array[mid] > search_term:
+        return binarysearch(array, search_term, low, mid, searches)
+    else:
+        return binarysearch(array, search_term, mid, high, searches)
+    
+def checksum2(array):
+    search_sum = 100
+    array_length = 0
+    while array_length != len(array) and array[array_length] <= search_sum:
+        array_length += 1
+    array = array[:array_length]
+    middle_position = 0
+    while middle_position != len(array) and array[middle_position] <= (search_sum + 1) // 2:
+        middle_position += 1
+    searches = 0
+    for i in range(middle_position):
+        searches += binarysearch(array[middle_position:], search_sum - array[i], 0, len(array)-middle_position)[1]
+        if binarysearch(array, search_sum - array[i], middle_position-1, len(array))[0]:
+            return True, searches
+    return False, searches
